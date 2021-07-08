@@ -1,0 +1,103 @@
+<html>
+
+<head>
+    <title>Circle Paint</title>
+</head>
+
+<body>
+
+    <div>
+
+        <canvas id="myCanvas" width="800" height="500"></canvas>
+        <br><br>
+        <span>Color - </span>&nbsp;<input id="ColorInput">&nbsp;
+
+        <span>Line Width - </span>&nbsp;<input type="number" id="WidthInput" t>&nbsp;
+
+        <span>Radius - </span>&nbsp;<input type="number" id="radiusInput">&nbsp;
+        
+        <button type="button" onclick="cleararea()">Clear</button><br>
+        
+        <h2 style="background-color:rgb(255, 60, 60);">Note - If Circle Are Not Drawing Please Enter Radius In The Box
+        </h2>
+    </div>
+</body>
+
+<style>
+    body {
+        cursor: pointer;
+        text-align: center;
+        background-image: linear-gradient(To top, rgb(0, 255, 179), rgb(70, 73, 255));
+    }
+
+    #myCanvas {
+        border-width: 10px;
+        background-color: white;
+        border-style: ridge;
+    }
+
+    button {
+        background-color: #4CAF50;
+        border: none;
+        color: white;
+        padding: 10px 42px;
+        font-size: 16px;
+    }
+</style>
+
+<script>
+    var mouseEvent = "empty";
+    var last_x;
+    var last_y;
+
+    canvas = document.getElementById("myCanvas");
+    ctx = canvas.getContext("2d");
+
+    color = "black";
+    width = 2;
+    radius = 20;
+
+    canvas.addEventListener("mousedown", mouse_down);
+
+    function mouse_down(e) {
+
+        color = document.getElementById("ColorInput").value;
+        width = document.getElementById("WidthInput").value;
+        radius = document.getElementById("radiusInput").value;
+        mouseEvent = "mousedown";
+
+    }
+    canvas.addEventListener("mousemove", mouse_move);
+
+    function mouse_move(e) {
+
+        current_x = e.clientX - canvas.offsetLeft;;
+        current_y = e.clientY - canvas.offsetTop;
+
+        if (mouseEvent == "mousedown") {
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = width;
+            ctx.arc(current_x, current_y, radius, 0, 2 * Math.PI);
+            ctx.stroke();
+            last_y = current_y;
+            last_x = current_x;
+        }
+    }
+    canvas.addEventListener("mouseup", mouse_up);
+
+    function mouse_up(e) {
+        mouseEvent = "moueup";
+    }
+    canvas.addEventListener("mouseleave", mouse_leave);
+
+    function mouse_leave(e) {
+        mouseEvent = "mouseleave";
+    }
+
+    function cleararea() {
+        ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    }
+</script>
+
+</html>
